@@ -42,7 +42,11 @@ async function handleVolumeChange(action, context, direction, payload) {
         let currentVolumePercent = Math.round(currentVolume * 100);
 
         // Get volume step from the hierarchical settings structure
-        const volumeStep = window.ciderDeckSettings?.dial?.volumeStep ?? 1;
+        let volumeStep = window.ciderDeckSettings?.dial?.volumeStep ?? 1;
+
+        if (action && (action.UUID === 'sh.cider.streamdeck.volumeup' || action.UUID === 'sh.cider.streamdeck.volumedown')) {
+            volumeStep = 10;
+        }
 
         let newVolume;
 
@@ -91,6 +95,7 @@ async function handleVolumeChange(action, context, direction, payload) {
  * @param {number} volume - Current volume (0-1)
  */
 function updateVolumeDisplay(context, volume) {
+    if (!context) return;
     const volumePercentage = Math.round(volume * 100);
     sliderLogger.debug(`Updating volume display to ${volumePercentage}%`);
     

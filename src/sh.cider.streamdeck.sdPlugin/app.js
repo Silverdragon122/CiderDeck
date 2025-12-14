@@ -161,7 +161,8 @@ Object.keys(actions).forEach(actionKey => {
         }
     });
 
-    action.onKeyDown(() => {
+    action.onKeyDown((jsn) => {
+        const context = jsn.context;
         console.debug(`[DEBUG] [Action] ${actionKey} action triggered.`);
         switch (actionKey) {
             case 'toggleAction':
@@ -196,10 +197,10 @@ Object.keys(actions).forEach(actionKey => {
                 CiderDeckLibrary.addToLibrary();
                 break;
             case 'volumeUpAction':
-                CiderDeckVolume.handleVolumeChange(null, null, 'up');
+                CiderDeckVolume.handleVolumeChange(actions.volumeUpAction, context, 'up');
                 break;
             case 'volumeDownAction':
-                CiderDeckVolume.handleVolumeChange(null, null, 'down');
+                CiderDeckVolume.handleVolumeChange(actions.volumeDownAction, context, 'down');
                 break;
             case 'ciderLogoAction':
                 console.warn(`[DEBUG] [Action] Interesting decision?`);
